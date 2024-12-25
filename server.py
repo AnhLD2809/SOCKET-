@@ -6,7 +6,7 @@ import stat
 
 PORT = 8081
 FILE_PATH = ".\\files_server"
-PASSWORD = "nhom1"
+PASSWORD = "nhom3"
 
 def send_file(client_socket, filename):
     filepath = os.path.join(FILE_PATH, filename)
@@ -16,7 +16,9 @@ def send_file(client_socket, filename):
                 bytes_read = file.read(1024)
                 if not bytes_read:
                     break
-                client_socket.sendall(bytes_read)
+                client_socket.sendall(bytes_read)  
+            client_socket.sendall(b'\EOF')    
+            print("done sending file to client")
     except Exception as e:
         print(f"Error sending file: {e}")
 

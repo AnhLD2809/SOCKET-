@@ -17,10 +17,10 @@ def receive_file(socket_fd, filename):
         with open(filepath, "wb") as file:
             while True:
                 bytes_read = socket_fd.recv(1024)
-                if not bytes_read:
+                if b'EOF' in bytes_read:
                     break
                 file.write(bytes_read)
-                break
+
         print(f"{filename} has been received.")
     except Exception as e:
         error(f"Error receiving file: {e}")
