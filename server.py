@@ -5,12 +5,11 @@ import threading
 import stat
 
 PORT = 8081
-FILE_PATH = "E:\\2024.1\\MMT\\files_server"
+FILE_PATH = ".\\files_server"
 PASSWORD = "nhom1"
 
 def send_file(client_socket, filename):
     filepath = os.path.join(FILE_PATH, filename)
-
     try:
         with open(filepath, "rb") as file:
             while True:
@@ -93,10 +92,9 @@ def client_handler(client_socket, client_address):
             print(f"Received from {client_address}: {buffer}")
             if buffer == "list":
                 list_files(client_socket)
-            elif buffer.startswith("send"):
-                filename = buffer[4:]
-                file = open(filename, "wb")
-                client_socket = file.read(1024)
+            elif buffer.startswith("download"):
+                filename = buffer[9:].strip()  
+                # client_socket = file.read(1024)
                 send_file(client_socket, filename)
             elif buffer.startswith("upload"):
                 password = buffer[6:]

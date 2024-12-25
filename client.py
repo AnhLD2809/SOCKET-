@@ -4,7 +4,7 @@ import sys
 
 PORT = 8081
 SERVER_IP = "127.0.0.1"
-FILE_PATH = "E:\\2024.1\\MMT\\files_client"
+FILE_PATH = ".\\files_client"
 
 def error(message):
     print(message)
@@ -20,6 +20,7 @@ def receive_file(socket_fd, filename):
                 if not bytes_read:
                     break
                 file.write(bytes_read)
+                break
         print(f"{filename} has been received.")
     except Exception as e:
         error(f"Error receiving file: {e}")
@@ -168,7 +169,7 @@ def main():
                     try:
                         socket_fd = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                         socket_fd.connect((SERVER_IP, PORT))  # Reconnect for each download
-                        request = f"send{filepath}"
+                        request = f"download {filepath}"
                         socket_fd.sendall(request.encode())
                         receive_file(socket_fd, new_filename)
                     except Exception as e:
